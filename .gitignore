@@ -475,3 +475,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Sqlite3
+*.db-shm
+*.db-wal
+package-lock.json
+*.sqlite
+
