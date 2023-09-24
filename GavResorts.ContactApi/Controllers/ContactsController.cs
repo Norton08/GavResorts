@@ -10,8 +10,7 @@ namespace GavResorts.ContactApi.Controllers
     [Route("api/[controller]")]
     public class ContactsController : ControllerBase
     {
-        [HttpGet]
-        [Route("contacts")]   
+        [HttpGet] 
         public async Task<IActionResult> GetAllContactsAsync([FromServices]AppDbContext context)
         {
             var contacts = await context.Contacts.AsNoTracking().ToListAsync();
@@ -20,7 +19,7 @@ namespace GavResorts.ContactApi.Controllers
         }
 
         [HttpGet]
-        [Route("contacts/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetByIdContactAsync([FromServices] AppDbContext context, [FromRoute]int id)
         {
             var contact = await context.Contacts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
@@ -28,7 +27,7 @@ namespace GavResorts.ContactApi.Controllers
             return contact == null ? NotFound("Contact not found.") : Ok(contact);
         }
 
-        [HttpPost("contacts")]
+        [HttpPost]
         public async Task<IActionResult> PostContactAsync([FromServices] AppDbContext context, [FromBody]ContactsDto dto)
         {
             if (!ModelState.IsValid)
@@ -54,13 +53,13 @@ namespace GavResorts.ContactApi.Controllers
             }
         }
 
-        [HttpPut("contacts/{id}")]
-        public async Task<IActionResult> UpdateContactAsync([FromServices] AppDbContext context, [FromBody] ContactsDto dto, [FromRoute] int id)
+        [HttpPut()]
+        public async Task<IActionResult> UpdateContactAsync([FromServices] AppDbContext context, [FromBody] ContactsDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Data invalid");
 
-            var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
+            var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == dto.Id);
 
             if (contact == null)
                 return NotFound("Contact with this id not found");
@@ -83,11 +82,10 @@ namespace GavResorts.ContactApi.Controllers
             }
         }
 
-        [HttpDelete("contacts/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContactAsync([FromServices] AppDbContext context, [FromRoute] int id)
         {
             var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
-
 
             try
             {

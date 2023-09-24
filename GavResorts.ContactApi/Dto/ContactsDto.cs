@@ -4,6 +4,8 @@ namespace GavResorts.ContactApi.Dto;
 
 public class ContactsDto
 {
+    public int Id { get; set; }
+
     [Required(ErrorMessage = "The Name is Required")]
     [MinLength(3)]
     [MaxLength(100)]
@@ -14,7 +16,7 @@ public class ContactsDto
     [MaxLength(256)]
     public string? Note { get; set; }
 
-    [Required(ErrorMessage = "The Telephone is Required")]
+    [Required(ErrorMessage = "The Phone Number is Required")]
     [MinLength(9)]
     [MaxLength(100)]
     public string? Telephone { get; set; }
