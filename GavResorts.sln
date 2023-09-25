@@ -5,7 +5,13 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GavResorts.ContactApi", "GavResorts.ContactApi\GavResorts.ContactApi.csproj", "{AA1EE2EA-17BB-4317-8D3B-9873342D75B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GavResorts.Web", "GavResorts.Web\GavResorts.Web.csproj", "{E5FF763C-836F-4346-902C-4F1F4503756F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GavResorts.Web", "GavResorts.Web\GavResorts.Web.csproj", "{E5FF763C-836F-4346-902C-4F1F4503756F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{D32B5344-D961-45D0-84FA-1CC45BC6F4A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{5C7EC5C6-7522-49DC-835A-44C440A34E0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GavResorts.IdentityServer", "GavResorts.IdentityServer\GavResorts.IdentityServer.csproj", "{9B3CDCD6-CF26-4FEE-9D06-CB665AD8DA6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +27,18 @@ Global
 		{E5FF763C-836F-4346-902C-4F1F4503756F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5FF763C-836F-4346-902C-4F1F4503756F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5FF763C-836F-4346-902C-4F1F4503756F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B3CDCD6-CF26-4FEE-9D06-CB665AD8DA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B3CDCD6-CF26-4FEE-9D06-CB665AD8DA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B3CDCD6-CF26-4FEE-9D06-CB665AD8DA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B3CDCD6-CF26-4FEE-9D06-CB665AD8DA6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA1EE2EA-17BB-4317-8D3B-9873342D75B0} = {5C7EC5C6-7522-49DC-835A-44C440A34E0C}
+		{E5FF763C-836F-4346-902C-4F1F4503756F} = {D32B5344-D961-45D0-84FA-1CC45BC6F4A9}
+		{9B3CDCD6-CF26-4FEE-9D06-CB665AD8DA6A} = {5C7EC5C6-7522-49DC-835A-44C440A34E0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5BE57DD7-8356-4113-8312-4401A7BA08CC}

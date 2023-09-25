@@ -1,5 +1,9 @@
 ﻿using GavResorts.Web.Models;
+using GavResorts.Web.Roles;
 using GavResorts.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GavResorts.Web.Controllers
@@ -14,11 +18,12 @@ namespace GavResorts.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ContactViewModel>>> Index()
         {
-            var result = await _contactService.GetAllContacts();
+            var result = await _contactService.GetAllContacts(await GetAccessToken());
 
-            if(result is null)
+            if (result is null)
                 return View("Error");
 
             return View(result);
@@ -31,11 +36,12 @@ namespace GavResorts.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateContact(ContactViewModel model)
         {
             if(ModelState.IsValid)
             {
-                var result = await _contactService.CreateContact(model);
+                var result = await _contactService.CreateContact(model, await GetAccessToken());
 
                 if (result != null)
                     return RedirectToAction(nameof(Index));
@@ -47,7 +53,7 @@ namespace GavResorts.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateContact(int id)
         {
-            var result = await _contactService.FindContactById(id);
+            var result = await _contactService.FindContactById(id, await GetAccessToken());
 
             if(result == null) return View("Error");
 
@@ -55,11 +61,12 @@ namespace GavResorts.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> UpdateContact(ContactViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _contactService.UpdateContact(model);
+                var result = await _contactService.UpdateContact(model, await GetAccessToken());
 
                 if (result != null)
                     return RedirectToAction(nameof(Index));
@@ -69,9 +76,10 @@ namespace GavResorts.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> DeleteContact(int id)
         {
-            var result = await _contactService.FindContactById(id);
+            var result = await _contactService.FindContactById(id, await GetAccessToken());
 
             if (result == null) return View("Error");
 
@@ -79,15 +87,21 @@ namespace GavResorts.Web.Controllers
         }
 
         [HttpPost(), ActionName("DeleteContact")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var result = await _contactService.DeleteContactById(id);
+            var result = await _contactService.DeleteContactById(id, await GetAccessToken());
 
             if (!result)
                 return View("Error");
             
 
             return RedirectToAction("Index");
+        }
+
+        private async Task<string?> GetAccessToken()
+        {
+            return await HttpContext.GetTokenAsync("access_token");
         }
     }
 }

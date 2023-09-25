@@ -1,6 +1,8 @@
 ﻿using GavResorts.ContactApi.Data;
 using GavResorts.ContactApi.Dto;
 using GavResorts.ContactApi.Models;
+using GavResorts.ContactApi.Roles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -83,6 +85,7 @@ namespace GavResorts.ContactApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> DeleteContactAsync([FromServices] AppDbContext context, [FromRoute] int id)
         {
             var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);

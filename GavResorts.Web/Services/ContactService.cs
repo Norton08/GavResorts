@@ -20,11 +20,12 @@ public class ContactService : IContactService
         _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
     }
 
-    public async Task<IEnumerable<ContactViewModel>> GetAllContacts()
+    public async Task<IEnumerable<ContactViewModel>> GetAllContacts(string token)
     {
         var client = _clientFactory.CreateClient("ContactApi");
-        
-        using(var response = await client.GetAsync(apiEndpoint))
+        PutTokenInHeaderAuthorization(token, client);
+
+        using (var response = await client.GetAsync(apiEndpoint))
         {
             if (response.IsSuccessStatusCode)
             {
@@ -39,9 +40,10 @@ public class ContactService : IContactService
 
         return contactsVm;
     }
-    public async Task<ContactViewModel> FindContactById(int id)
+    public async Task<ContactViewModel> FindContactById(int id, string token)
     {
         var client = _clientFactory.CreateClient("ContactApi");
+        PutTokenInHeaderAuthorization(token, client);
 
         using (var response = await client.GetAsync(apiEndpoint + id))
         {
@@ -59,9 +61,10 @@ public class ContactService : IContactService
         return model;
     }
 
-    public async Task<ContactViewModel> CreateContact(ContactViewModel model)
+    public async Task<ContactViewModel> CreateContact(ContactViewModel model, string token)
     {
         var client = _clientFactory.CreateClient("ContactApi");
+        PutTokenInHeaderAuthorization(token, client);
 
         StringContent content = new StringContent(JsonSerializer.Serialize(model), 
                                     Encoding.UTF8, "application/json");
@@ -82,9 +85,10 @@ public class ContactService : IContactService
         return model;
     }
     
-    public async Task<ContactViewModel> UpdateContact(ContactViewModel model)
+    public async Task<ContactViewModel> UpdateContact(ContactViewModel model, string token)
     {
         var client = _clientFactory.CreateClient("ContactApi");
+        PutTokenInHeaderAuthorization(token, client);
 
         ContactViewModel contactUpdated = new ContactViewModel();
 
@@ -104,9 +108,10 @@ public class ContactService : IContactService
         return contactUpdated;
     }
 
-    public async Task<bool> DeleteContactById(int id)
+    public async Task<bool> DeleteContactById(int id, string token)
     {
         var client = _clientFactory.CreateClient("ContactApi");
+        PutTokenInHeaderAuthorization(token, client);
 
         using (var response = await client.DeleteAsync(apiEndpoint + id))
         {
@@ -117,5 +122,11 @@ public class ContactService : IContactService
         }
 
         return false;
+    }
+
+    private static void PutTokenInHeaderAuthorization(string token, HttpClient client)
+    {
+        client.DefaultRequestHeaders.Authorization =
+                                            new AuthenticationHeaderValue("Bearer", token);
     }
 }
